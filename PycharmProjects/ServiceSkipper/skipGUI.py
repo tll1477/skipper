@@ -1,3 +1,6 @@
+import tkinter
+from tkinter import LEFT
+
 import customtkinter
 from selenium.webdriver.common.by import By
 from selenium import webdriver
@@ -20,18 +23,37 @@ class SkipperGUI:
         self.label = customtkinter.CTkLabel(self.gui, text="Service Skipper")
         self.label.pack()
 
+        # MyCourses image for button
         self.my_image = customtkinter.CTkImage(light_image=Image.open("myCoursesLogo.png"),
                                                dark_image=Image.open("myCoursesLogo.png"),
                                                size=(100, 100))
 
+        # MyCourses button
         self.myCoursesButton = customtkinter.CTkButton(master=self.gui, image=self.my_image, text="", width=0, height=0,
                                                        hover_color="white",
                                                        fg_color="white",
                                                        border_width=5,
                                                        border_color="white",
                                                        corner_radius=10)
-        self.myCoursesButton.pack(pady=600 / 3, padx=800 / 3)
+        self.myCoursesButton.place(x=150, y=100)
         self.myCoursesButton.configure(command=self.my_courses_click)
+
+
+        # Git image for button
+        self.git_image = customtkinter.CTkImage(light_image=Image.open("github-logo-300x300.png"),
+                                                dark_image=Image.open("github-logo-300x300.png"),
+                                                size=(100, 100))
+
+        # Git button
+        self.gitButton = customtkinter.CTkButton(master=self.gui, image=self.git_image, text="", width=0, height=0,
+                                                 hover_color="white",
+                                                 fg_color="white",
+                                                 border_width=5,
+                                                 border_color="white",
+                                                 corner_radius=10)
+        self.gitButton.place(x=525, y=100)
+        self.gitButton.configure(command=self.git_click)
+
 
     def my_courses_click(self):
         # call the code for opening myCourses credentials page
@@ -59,13 +81,44 @@ class SkipperGUI:
         run_button = customtkinter.CTkButton(frame,text='Run',command=self.runLogin)
         run_button.pack(pady=12,padx=10)
 
+
+
+    def git_click(self):
+        # call the code for opening myCourses credentials page
+        git_window = customtkinter.CTkToplevel(self.gui)
+        git_window.title("GitHub")
+        git_window.geometry("600x400")
+
+        my_label = customtkinter.CTkLabel(git_window, text="Enter MyCourses credentials")
+        my_label.pack()
+        frame = customtkinter.CTkFrame(git_window)
+        frame.pack(pady=20, padx=40, fill='both', expand=True)
+
+        # Create the text box for taking username input from user
+        self.user_entry = customtkinter.CTkEntry(frame, placeholder_text="Username")
+        self.user_entry.pack(pady=12, padx=10)
+
+        # Create a text box for taking password input from user
+        self.user_pass = customtkinter.CTkEntry(frame, placeholder_text="Password", show="*")
+        self.user_pass.pack(pady=12, padx=10)
+
+        # Create a login button to login
+        save_button = customtkinter.CTkButton(frame, text='Save', command=self.save)
+        save_button.pack(pady=12, padx=10)
+
+        run_button = customtkinter.CTkButton(frame, text='Run', command=self.runLogin)
+        run_button.pack(pady=12, padx=10)
+
+
     def save(self):
         username = self.user_entry.get()
         password = self.user_pass.get()
         passwordDict["Mycourses"] = (username,password)
-
-
         print(passwordDict)
+
+
+
+
 
     def runLogin(self):
         driver = webdriver.Chrome()
