@@ -9,7 +9,7 @@ import time
 
 from PIL import Image
 
-passwordDict = {"Mycourses": ()}
+passwordDict = {"Mycourses": (),"Github":()}
 
 class SkipperGUI:
     def __init__(self):
@@ -89,7 +89,7 @@ class SkipperGUI:
         git_window.title("GitHub")
         git_window.geometry("600x400")
 
-        my_label = customtkinter.CTkLabel(git_window, text="Enter MyCourses credentials")
+        my_label = customtkinter.CTkLabel(git_window, text="Enter Github credentials")
         my_label.pack()
         frame = customtkinter.CTkFrame(git_window)
         frame.pack(pady=20, padx=40, fill='both', expand=True)
@@ -103,10 +103,10 @@ class SkipperGUI:
         self.user_pass.pack(pady=12, padx=10)
 
         # Create a login button to login
-        save_button = customtkinter.CTkButton(frame, text='Save', command=self.save)
+        save_button = customtkinter.CTkButton(frame, text='Save', command=self.saveGit)
         save_button.pack(pady=12, padx=10)
 
-        run_button = customtkinter.CTkButton(frame, text='Run', command=self.runLogin)
+        run_button = customtkinter.CTkButton(frame, text='Run', command=self.gitrunLogin)
         run_button.pack(pady=12, padx=10)
 
 
@@ -114,6 +114,12 @@ class SkipperGUI:
         username = self.user_entry.get()
         password = self.user_pass.get()
         passwordDict["Mycourses"] = (username,password)
+        print(passwordDict)
+
+    def saveGit(self):
+        username = self.user_entry.get()
+        password = self.user_pass.get()
+        passwordDict["Github"] = (username,password)
         print(passwordDict)
 
 
@@ -139,8 +145,21 @@ class SkipperGUI:
 
         input("Press Enter to close the browser...")
         driver.close()
+    def gitrunLogin(self):
+        driver = webdriver.Chrome()
+        driver.get('https://github.com/login')
+        username = driver.find_element(By.ID, 'login_field')
+        user_passTuple = passwordDict["Github"]
+        username.send_keys(user_passTuple[0])
+        password = driver.find_element(By.ID, 'password')
+        password.send_keys(user_passTuple[1])
+        login = driver.find_element(By.NAME, 'commit').click()
 
+        # Additional code to perform actions on GitHub
+        # ...
 
+        input("Press Enter to close the browser...")
+        driver.close()
 
     def run(self):
         # runs the application
