@@ -19,13 +19,18 @@ label = customtkinter.CTkLabel(gui, text="Service Skipper")
 label.pack()
 
 
-my_image = customtkinter.CTkImage(light_image=Image.open("/Users/trislout/PycharmProjects/ServiceSkipper/myCoursesLogo.png"),
-                                  dark_image=Image.open("/Users/trislout/PycharmProjects/ServiceSkipper/myCoursesLogo.png"),
-                                  size=(30, 30))
+my_image = customtkinter.CTkImage(light_image=Image.open("myCoursesLogo.png"),
+                                  dark_image=Image.open("myCoursesLogo.png"),
+                                  size=(100, 100))
 
-# create myCourses button
-myCoursesButton = customtkinter.CTkButton(master=gui, image=my_image)
-myCoursesButton.pack(pady=12, padx=12)
+myCoursesButton = customtkinter.CTkButton(master=gui, image=my_image, text="", width=0, height=0,
+                                          hover_color="white",
+                                          fg_color="white",
+                                          border_width=5,
+                                          border_color="white",
+                                          corner_radius=10)
+#myCoursesButton.tkraise(backgroundLabel)
+myCoursesButton.pack(pady=600 / 3, padx=800 / 3)
 
 def myCoursesClick():
     # call the code for opening myCourses credentials page
@@ -57,18 +62,6 @@ def myCoursesClick():
 myCoursesButton.configure(command=myCoursesClick)
 
 
-my_image = customtkinter.CTkImage(light_image=Image.open("myCoursesLogo.png"),
-                                  dark_image=Image.open("myCoursesLogo.png"),
-                                  size=(100, 100))
-
-myCoursesButton = customtkinter.CTkButton(master=gui, image=my_image, text="", width=0, height=0,
-                                          hover_color="white",
-                                          fg_color="white",
-                                          border_width=5,
-                                          border_color="white",
-                                          corner_radius=10)
-#myCoursesButton.tkraise(backgroundLabel)
-myCoursesButton.pack(pady=600 / 3, padx=800 / 3)
 
 # runs the application
 gui.mainloop()
