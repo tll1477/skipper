@@ -3,9 +3,8 @@ GUI for the skipper
 """
 import customtkinter
 from customtkinter import *
-
-
-
+customtkinter.set_appearance_mode("system")
+customtkinter.set_default_color_theme("dark-blue")
 
 # creating the window and setting the size
 gui = CTk()
@@ -17,4 +16,3 @@ label.pack()
 
 # runs the application
 gui.mainloop()
-
