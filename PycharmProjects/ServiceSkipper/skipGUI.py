@@ -123,9 +123,6 @@ class SkipperGUI:
         print(passwordDict)
 
 
-
-
-
     def runLogin(self):
         driver = webdriver.Chrome()
         driver.get('https://mycourses.rit.edu/')
