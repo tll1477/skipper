@@ -1,0 +1,4 @@
+"""
+GUI for the skipper
+"""
+
