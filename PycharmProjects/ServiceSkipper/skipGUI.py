@@ -1,67 +1,99 @@
-"""
-GUI for the skipper
-"""
-
 import customtkinter
+from selenium.webdriver.common.by import By
+from selenium import webdriver
+import time
+
+
 from PIL import Image
 
-customtkinter.set_appearance_mode("system")
-customtkinter.set_default_color_theme("dark-blue")
+passwordDict = {"Mycourses": ()}
 
-# creating the window and setting the size
-gui = customtkinter.CTk()
-gui.geometry("800x600")
-#backgroundImg = customtkinter.CTkImage(Image.open("background.png"),size=(800,600))
-#backgroundLabel = customtkinter.CTkLabel(master=gui, image=backgroundImg,text="")
-#backgroundLabel.pack()
-# creates a text label
-label = customtkinter.CTkLabel(gui, text="Service Skipper")
-label.pack()
+class SkipperGUI:
+    def __init__(self):
+
+        customtkinter.set_appearance_mode("system")
+        customtkinter.set_default_color_theme("dark-blue")
+
+        # creating the window and setting the size
+        self.gui = customtkinter.CTk()
+        self.gui.geometry("800x600")
+        self.label = customtkinter.CTkLabel(self.gui, text="Service Skipper")
+        self.label.pack()
+
+        self.my_image = customtkinter.CTkImage(light_image=Image.open("myCoursesLogo.png"),
+                                               dark_image=Image.open("myCoursesLogo.png"),
+                                               size=(100, 100))
+
+        self.myCoursesButton = customtkinter.CTkButton(master=self.gui, image=self.my_image, text="", width=0, height=0,
+                                                       hover_color="white",
+                                                       fg_color="white",
+                                                       border_width=5,
+                                                       border_color="white",
+                                                       corner_radius=10)
+        self.myCoursesButton.pack(pady=600 / 3, padx=800 / 3)
+        self.myCoursesButton.configure(command=self.my_courses_click)
+
+    def my_courses_click(self):
+        # call the code for opening myCourses credentials page
+        my_courses_window = customtkinter.CTkToplevel(self.gui)
+        my_courses_window.title("MyCourses")
+        my_courses_window.geometry("600x400")
+
+        my_label = customtkinter.CTkLabel(my_courses_window, text="Enter MyCourses credentials")
+        my_label.pack()
+        frame = customtkinter.CTkFrame(my_courses_window)
+        frame.pack(pady=20, padx=40, fill='both', expand=True)
+
+        # Create the text box for taking username input from user
+        self.user_entry = customtkinter.CTkEntry(frame, placeholder_text="Username")
+        self.user_entry.pack(pady=12, padx=10)
+
+        # Create a text box for taking password input from user
+        self.user_pass = customtkinter.CTkEntry(frame, placeholder_text="Password", show="*")
+        self.user_pass.pack(pady=12, padx=10)
+
+        # Create a login button to login
+        save_button = customtkinter.CTkButton(frame, text='Save', command=self.save)
+        save_button.pack(pady=12, padx=10)
+
+        run_button = customtkinter.CTkButton(frame,text='Run',command=self.runLogin)
+        run_button.pack(pady=12,padx=10)
+
+    def save(self):
+        username = self.user_entry.get()
+        password = self.user_pass.get()
+        passwordDict["Mycourses"] = (username,password)
 
 
-my_image = customtkinter.CTkImage(light_image=Image.open("myCoursesLogo.png"),
-                                  dark_image=Image.open("myCoursesLogo.png"),
-                                  size=(100, 100))
+        print(passwordDict)
 
-myCoursesButton = customtkinter.CTkButton(master=gui, image=my_image, text="", width=0, height=0,
-                                          hover_color="white",
-                                          fg_color="white",
-                                          border_width=5,
-                                          border_color="white",
-                                          corner_radius=10)
-#myCoursesButton.tkraise(backgroundLabel)
-myCoursesButton.pack(pady=600 / 3, padx=800 / 3)
+    def runLogin(self):
+        driver = webdriver.Chrome()
+        driver.get('https://mycourses.rit.edu/')
+        signIn = driver.find_element(By.XPATH,
+                                     '/html/body/div[2]/div/div[1]/d2l-html-block/div/div/table/tbody/tr[1]/td[1]/a').click()
+        username = driver.find_element(By.XPATH, '/html/body/div/div/form/div/input[1]')
+        user_passTuple = passwordDict["Mycourses"]
+        username.send_keys(user_passTuple[0])
+        password = driver.find_element(By.XPATH, '/html/body/div/div/form/div/input[2]')
+        password.send_keys(user_passTuple[1])
+        # time.sleep(10)
+        login = driver.find_element(By.XPATH, '/html/body/div/div/form/div/span/button').click()
+        time.sleep(10)
 
-def myCoursesClick():
-    # call the code for opening myCourses credentials page
-    myCoursesWindow = customtkinter.CTkToplevel(gui)
-    myCoursesWindow.title("MyCourses")
-    myCoursesWindow.geometry("600x400")
+        notrust = driver.find_element(By.XPATH, '/html/body/div/div/div[1]/div/div[2]/div[4]/button').click()
+        time.sleep(15)
 
-    myLabel = customtkinter.CTkLabel(myCoursesWindow, text="Enter MyCourses credentials")
-    myLabel.pack()
-    frame = customtkinter.CTkFrame(myCoursesWindow)
-    frame.pack(pady=20, padx=40,
-               fill='both', expand=True)
-
-    # Create the text box for taking
-    # username input from user
-    user_entry = customtkinter.CTkEntry(frame, placeholder_text="Username")
-    user_entry.pack(pady=12, padx=10)
-
-    # Create a text box for taking
-    # password input from user
-    user_pass = customtkinter.CTkEntry(frame, placeholder_text="Password", show="*")
-    user_pass.pack(pady=12, padx=10)
-
-    # Create a login button to login
-    button = customtkinter.CTkButton(frame, text='Save')
-    button.pack(pady=12, padx=10)
-
-
-myCoursesButton.configure(command=myCoursesClick)
+        input("Press Enter to close the browser...")
+        driver.close()
 
 
 
-# runs the application
-gui.mainloop()
+    def run(self):
+        # runs the application
+        self.gui.mainloop()
+
+
+if __name__ == "__main__":
+    skipper_gui = SkipperGUI()
+    skipper_gui.run()
