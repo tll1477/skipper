@@ -9,7 +9,7 @@ import time
 
 from PIL import Image
 
-passwordDict = {"Mycourses": (),"Github":()}
+passwordDict = {"Mycourses": (),"Github":(),"Link":()}
 
 class SkipperGUI:
     def __init__(self):
@@ -75,10 +75,10 @@ class SkipperGUI:
         self.user_pass.pack(pady=12, padx=10)
 
         # Create a login button to login
-        save_button = customtkinter.CTkButton(frame, text='Save', command=self.save)
+        save_button = customtkinter.CTkButton(frame, text='Save', command=self.saveMycoures())
         save_button.pack(pady=12, padx=10)
 
-        run_button = customtkinter.CTkButton(frame,text='Run',command=self.runLogin)
+        run_button = customtkinter.CTkButton(frame,text='Run',command=self.MyCourserunLogin())
         run_button.pack(pady=12,padx=10)
 
 
@@ -110,7 +110,7 @@ class SkipperGUI:
         run_button.pack(pady=12, padx=10)
 
 
-    def save(self):
+    def saveMycoures(self):
         username = self.user_entry.get()
         password = self.user_pass.get()
         passwordDict["Mycourses"] = (username,password)
@@ -122,8 +122,14 @@ class SkipperGUI:
         passwordDict["Github"] = (username,password)
         print(passwordDict)
 
+    def saveLink(self):
+        username = self.user_entry.get()
+        password = self.user_pass.get()
+        passwordDict["Link"] = (username,password)
+        print(passwordDict)
 
-    def runLogin(self):
+
+    def MyCourserunLogin(self):
         driver = webdriver.Chrome()
         driver.get('https://mycourses.rit.edu/')
         signIn = driver.find_element(By.XPATH,
@@ -157,6 +163,22 @@ class SkipperGUI:
 
         input("Press Enter to close the browser...")
         driver.close()
+
+        def LinkrunLogin(self):
+            driver = webdriver.Chrome()
+            driver.get("https://www.linkedin.com/checkpoint/lg/sign-in-another-account")
+            username_element = driver.find_element(By.ID, 'username')
+            username_element.send_keys("devdog805@gmail.com")
+            password_element = driver.find_element(By.ID, 'password')
+            password_element.send_keys("dj101802")
+            login_button = driver.find_element(By.XPATH, '/html/body/div/main/div[2]/div[1]/form/div[3]/button')
+            login_button.click()
+
+            # Additional code to perform actions on the website
+            # ...
+
+            input("Press Enter to close the browser...")
+            driver.close()
 
     def run(self):
         # runs the application
