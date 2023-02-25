@@ -55,6 +55,22 @@ class SkipperGUI:
         self.gitButton.configure(command=self.git_click)
 
 
+        # Linkedin image for button
+        self.linkedin_image = customtkinter.CTkImage(light_image=Image.open("linkedin.png"),
+                                                dark_image=Image.open("linkedin.png"),
+                                                size=(100, 100))
+
+        # Linkedin button
+        self.linkButton = customtkinter.CTkButton(master=self.gui, image=self.linkedin_image, text="", width=0, height=0,
+                                                 hover_color="white",
+                                                 fg_color="white",
+                                                 border_width=5,
+                                                 border_color="white",
+                                                 corner_radius=10)
+        self.linkButton.place(x=150, y=300)
+        self.linkButton.configure(command=self.link_click)
+
+
     def my_courses_click(self):
         # call the code for opening myCourses credentials page
         my_courses_window = customtkinter.CTkToplevel(self.gui)
@@ -109,6 +125,31 @@ class SkipperGUI:
         run_button = customtkinter.CTkButton(frame, text='Run', command=self.gitrunLogin)
         run_button.pack(pady=12, padx=10)
 
+    def link_click(self):
+        # call the code for opening myCourses credentials page
+        link_window = customtkinter.CTkToplevel(self.gui)
+        link_window.title("Linkedin")
+        link_window.geometry("600x400")
+
+        my_label = customtkinter.CTkLabel(link_window, text="Enter Linkedin credentials")
+        my_label.pack()
+        frame = customtkinter.CTkFrame(link_window)
+        frame.pack(pady=20, padx=40, fill='both', expand=True)
+
+        # Create the text box for taking username input from user
+        self.user_entry = customtkinter.CTkEntry(frame, placeholder_text="Username")
+        self.user_entry.pack(pady=12, padx=10)
+
+        # Create a text box for taking password input from user
+        self.user_pass = customtkinter.CTkEntry(frame, placeholder_text="Password", show="*")
+        self.user_pass.pack(pady=12, padx=10)
+
+        # Create a login button to login
+        save_button = customtkinter.CTkButton(frame, text='Save', command=self.saveLink)
+        save_button.pack(pady=12, padx=10)
+
+        run_button = customtkinter.CTkButton(frame, text='Run', command=self.LinkrunLogin)
+        run_button.pack(pady=12, padx=10)
 
     def saveMycoures(self):
         username = self.user_entry.get()
@@ -148,6 +189,8 @@ class SkipperGUI:
 
         input("Press Enter to close the browser...")
         driver.close()
+
+
     def gitrunLogin(self):
         driver = webdriver.Chrome()
         driver.get('https://github.com/login')
@@ -164,21 +207,23 @@ class SkipperGUI:
         input("Press Enter to close the browser...")
         driver.close()
 
-        def LinkrunLogin(self):
-            driver = webdriver.Chrome()
-            driver.get("https://www.linkedin.com/checkpoint/lg/sign-in-another-account")
-            username_element = driver.find_element(By.ID, 'username')
-            username_element.send_keys("devdog805@gmail.com")
-            password_element = driver.find_element(By.ID, 'password')
-            password_element.send_keys("dj101802")
-            login_button = driver.find_element(By.XPATH, '/html/body/div/main/div[2]/div[1]/form/div[3]/button')
-            login_button.click()
 
-            # Additional code to perform actions on the website
-            # ...
+    def LinkrunLogin(self):
+        driver = webdriver.Chrome()
+        driver.get("https://www.linkedin.com/checkpoint/lg/sign-in-another-account")
+        username_element = driver.find_element(By.ID, 'username')
+        username_element.send_keys("devdog805@gmail.com")
+        password_element = driver.find_element(By.ID, 'password')
+        password_element.send_keys("dj101802")
+        login_button = driver.find_element(By.XPATH, '/html/body/div/main/div[2]/div[1]/form/div[3]/button')
+        login_button.click()
 
-            input("Press Enter to close the browser...")
-            driver.close()
+        # Additional code to perform actions on the website
+        # ...
+
+        input("Press Enter to close the browser...")
+        driver.close()
+
 
     def run(self):
         # runs the application
