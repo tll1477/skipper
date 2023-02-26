@@ -168,13 +168,14 @@ class SkipperGUI:
             driver.find_element(By.ID, 'username').send_keys(passwordDict[service_name][0])
             driver.find_element(By.ID, 'password').send_keys(passwordDict[service_name][1])
             driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
-        elif service_name == "Glassdoor":
+        elif service_name == "GlassDoor":
             driver = webdriver.Chrome()
             driver.get("https://www.glassdoor.com/index.htm")
             driver.find_element(By.ID, "inlineUserEmail").send_keys(passwordDict[service_name][0])
             driver.find_element(By.XPATH,'/html/body/div[2]/div/div/div/div/div[1]/article/section[1]/div[2]/div/div/div[1]/div/div/div/div/form/div[2]/button/span').click()
-            
-            time.sleep(3)
+            time.sleep(1)
+            driver.find_element(By.ID, "inlineUserPassword").send_keys(passwordDict[service_name][1])
+            driver.find_element(By.XPATH, "/html/body/div[2]/div/div/div/div/div[1]/article/section[1]/div[2]/div/div/div[1]/div/div/div/div/form/div[2]/button/span").click()
 
         try:
             # Wait for the browser to close
