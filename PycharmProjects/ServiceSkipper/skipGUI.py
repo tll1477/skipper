@@ -18,13 +18,13 @@ passwordDict = {}
 MY_COURSES_LOGO_PATH = "myCoursesLogo.png"
 GITHUB_LOGO_PATH = "github-logo-300x300.png"
 LINKEDIN_LOGO_PATH = "linkedin.png"
-ONEDRIVE_LOGO_PATH = "onedrive-logo.png"
+Glassdoor_LOGO_PATH = "Glassdoor-logo.png"
 
 # Names for each service
 MY_COURSES = "MyCourses"
 GITHUB = "Github"
 LINKEDIN = "Link"
-ONEDRIVE = "OneDrive"
+Glassdoor = "Glassdoor"
 
 
 class SkipperGUI:
@@ -56,7 +56,7 @@ class SkipperGUI:
         self.create_button(self.gui, MY_COURSES, MY_COURSES_LOGO_PATH, (70, 100), MY_COURSES)
         self.create_button(self.gui, GITHUB, GITHUB_LOGO_PATH, (470, 100), GITHUB)
         self.create_button(self.gui, LINKEDIN, LINKEDIN_LOGO_PATH, (870, 100), LINKEDIN)
-        self.create_button(self.gui, ONEDRIVE, ONEDRIVE_LOGO_PATH, (1270, 100), ONEDRIVE)
+        self.create_button(self.gui, Glassdoor, Glassdoor_LOGO_PATH, (1270, 100), Glassdoor)
 
     def create_button(self, master, name, image_path, position, service_name):
         """
@@ -165,6 +165,13 @@ class SkipperGUI:
             driver.find_element(By.ID, 'username').send_keys(passwordDict[service_name][0])
             driver.find_element(By.ID, 'password').send_keys(passwordDict[service_name][1])
             driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
+        elif service_name == "Glassdoor":
+            driver = webdriver.Chrome()
+            driver.get("https://www.glassdoor.com/index.htm")
+            driver.find_element(By.ID, "inlineUserEmail").send_keys(passwordDict[service_name][0])
+            driver.find_element(By.XPATH,'/html/body/div[2]/div/div/div/div/div[1]/article/section[1]/div[2]/div/div/div[1]/div/div/div/div/form/div[2]/button/span').click()
+            
+            time.sleep(3)
 
         try:
             # Wait for the browser to close
