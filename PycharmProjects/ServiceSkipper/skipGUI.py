@@ -75,7 +75,6 @@ class SkipperGUI:
         self.linkButton.place(x=150, y=300)
         self.linkButton.configure(command=self.link_click)
 
-
     def my_courses_click(self):
         # call the code for opening myCourses credentials page
         my_courses_window = customtkinter.CTkToplevel(self.gui)
