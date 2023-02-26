@@ -9,7 +9,7 @@ import time
 from selenium.webdriver.support.wait import WebDriverWait
 
 # Path to the background image
-BACKGROUND_PATH = "background2.png"
+BACKGROUND_PATH = "service.png"
 
 # A dictionary to store the credentials for each service
 passwordDict = {}
@@ -39,7 +39,10 @@ class SkipperGUI:
 
         # Creating the window and setting the size
         self.gui = customtkinter.CTk()
-        self.gui.geometry("800x600")
+        width = self.gui.winfo_screenwidth()
+        height = self.gui.winfo_screenheight()
+        xxxx = str(width)+"x"+str(height)
+        self.gui.geometry(xxxx)
         bg_image = ImageTk.PhotoImage(Image.open(BACKGROUND_PATH))
 
         # Create a Label widget with the background image and place it at (0, 0)
