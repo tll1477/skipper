@@ -7,7 +7,7 @@ from selenium import webdriver
 import time
 
 
-from PIL import Image
+from PIL import Image, ImageTk
 
 passwordDict = {"Mycourses": (),"Github":(),"Link":()}
 BACKGROUND_PATH= "background.png"
@@ -20,6 +20,11 @@ class SkipperGUI:
         # creating the window and setting the size
         self.gui = customtkinter.CTk()
         self.gui.geometry("800x600")
+        bg_image = ImageTk.PhotoImage(Image.open(BACKGROUND_PATH))
+
+        # Create a Label widget with the background image and place it at (0, 0)
+        bg_label = customtkinter.CTkLabel(self.gui, image=bg_image)
+        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
         self.label = customtkinter.CTkLabel(self.gui, text="Service Skipper")
         self.label.pack()
 
@@ -53,6 +58,7 @@ class SkipperGUI:
                                                  corner_radius=10)
         self.gitButton.place(x=525, y=100)
         self.gitButton.configure(command=self.git_click)
+
 
 
     def my_courses_click(self):
