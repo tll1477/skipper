@@ -44,19 +44,16 @@ class SkipperGUI:
         xxxx = str(width)+"x"+str(height)
         self.gui.geometry(xxxx)
         bg_image = ImageTk.PhotoImage(Image.open(BACKGROUND_PATH))
+        self.gui.title("Service Skipper")
 
         # Create a Label widget with the background image and place it at (0, 0)
         bg_label = customtkinter.CTkLabel(self.gui, image=bg_image, text="")
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
-        # A label for the name of the app
-        self.label = customtkinter.CTkLabel(self.gui, text="Service Skipper")
-        self.label.pack()
-
         # Create a button for each service
         self.create_button(self.gui, MY_COURSES, MY_COURSES_LOGO_PATH, (150, 100), MY_COURSES)
         self.create_button(self.gui, GITHUB, GITHUB_LOGO_PATH, (525, 100), GITHUB)
-        self.create_button(self.gui, LINKEDIN, LINKEDIN_LOGO_PATH, (150, 300), LINKEDIN)
+        self.create_button(self.gui, LINKEDIN, LINKEDIN_LOGO_PATH, (900, 100), LINKEDIN)
 
     def create_button(self, master, name, image_path, position, service_name):
         """
