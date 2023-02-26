@@ -1,19 +1,22 @@
-import tkinter
-from tkinter import LEFT
-
-import customtkinter
 from selenium.webdriver.common.by import By
 from selenium import webdriver
+from PIL import Image, ImageTk
+import customtkinter
 import time
 
-
-from PIL import Image, ImageTk
-
+BACKGROUND_PATH = "background2.png"
 passwordDict = {"Mycourses": (),"Github":(),"Link":()}
-BACKGROUND_PATH= "background2.png"
+
+MY_COURSES_LOGO_PATH = "myCoursesLogo.png"
+GITHUB_LOGO_PATH = "github-logo-300x300.png"
+LINKEDIN_LOGO_PATH = "linkedin.png"
+
+MY_COURSES = "MyCourses"
+GITHUB = "Github"
+LINKEDIN = "Link"
+
 class SkipperGUI:
     def __init__(self):
-
         customtkinter.set_appearance_mode("system")
         customtkinter.set_default_color_theme("dark-blue")
 
@@ -25,70 +28,117 @@ class SkipperGUI:
         # Create a Label widget with the background image and place it at (0, 0)
         bg_label = customtkinter.CTkLabel(self.gui, image=bg_image, text="")
         bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+
         self.label = customtkinter.CTkLabel(self.gui, text="Service Skipper")
         self.label.pack()
 
-        self.create_button('myCoursesLogo.png', self.my_courses_click, 150, 100)
-        self.create_button('github-logo-300x300.png', self.git_click, 525, 100)
-        self.create_button('linkedin.png', self.link_click, 150, 300)
+        self.create_button(self.gui, MY_COURSES, MY_COURSES_LOGO_PATH, (150, 100), self.my_courses_click)
+        self.create_button(self.gui, GITHUB, GITHUB_LOGO_PATH, (525, 100), self.git_click)
+        self.create_button(self.gui, LINKEDIN, LINKEDIN_LOGO_PATH, (150, 300), self.link_click)
+
+    def create_button(self, master, name, image_path, position, command):
+        image = customtkinter.CTkImage(
+            light_image=Image.open(image_path),
+            dark_image=Image.open(image_path),
+            size=(100, 100),
+        )
+
+        button = customtkinter.CTkButton(
+            master=master,
+            image=image,
+            text="",
+            width=0,
+            height=0,
+            hover_color="white",
+            fg_color="white",
+            border_width=5,
+            border_color="white",
+            corner_radius=10,
+        )
+        button.place(x=position[0], y=position[1])
+        button.configure(command=command)
+        setattr(self, f"{name.lower()}Button", button)
 
     def my_courses_click(self):
-        self.create_credentials_window("MyCourses", self.MyCourserunLogin)
+        # call the code for opening myCourses credentials page
+        my_courses_window = customtkinter.CTkToplevel(self.gui)
+        my_courses_window.title("MyCourses")
+        my_courses_window.geometry("600x400")
 
-    def git_click(self):
-        self.create_credentials_window("GitHub", self.git_login)
-
-    def link_click(self):
-        self.create_credentials_window("LinkedIn", self.link_login)
-
-    def create_button(self, image_path, command, x, y):
-        # Create an image for button
-        image = customtkinter.CTkImage(light_image=Image.open(image_path),
-                                       dark_image=Image.open(image_path),
-                                       size=(100, 100))
-
-        # Create a button
-        button = customtkinter.CTkButton(master=self.gui, image=image, text="", width=0, height=0,
-                                         hover_color="white",
-                                         fg_color="white",
-                                         border_width=5,
-                                         border_color="white",
-                                         corner_radius=10)
-        button.place(x=x, y=y)
-        button.configure(command=self.my_courses_click)
-
-    def create_credentials_window(self, title, command):
-        window = customtkinter.CTkToplevel(self.gui)
-        window.title(title)
-        window.geometry("600x400")
-
-        label = customtkinter.CTkLabel(window, text=f"Enter {title} credentials")
-        label.pack()
-        frame = customtkinter.CTkFrame(window)
+        my_label = customtkinter.CTkLabel(my_courses_window, text="Enter MyCourses credentials")
+        my_label.pack()
+        frame = customtkinter.CTkFrame(my_courses_window)
         frame.pack(pady=20, padx=40, fill='both', expand=True)
 
         # Create the text box for taking username input from user
-        user_entry = customtkinter.CTkEntry(frame, placeholder_text="Username")
-        user_entry.pack(pady=12, padx=10)
+        self.user_entry = customtkinter.CTkEntry(frame, placeholder_text="Username")
+        self.user_entry.pack(pady=12, padx=10)
 
         # Create a text box for taking password input from user
-        user_pass = customtkinter.CTkEntry(frame, placeholder_text="Password", show="*")
-        user_pass.pack(pady=12, padx=10)
+        self.user_pass = customtkinter.CTkEntry(frame, placeholder_text="Password", show="*")
+        self.user_pass.pack(pady=12, padx=10)
 
         # Create a login button to login
-        save_button = customtkinter.CTkButton(frame, text='Save', command=self.save_credentials(title))
+        save_button = customtkinter.CTkButton(frame, text='Save', command=self.saveMycoures)
         save_button.pack(pady=12, padx=10)
 
-        run_button = customtkinter.CTkButton(frame, text='Run', command=command)
+        run_button = customtkinter.CTkButton(frame,text='Run',command=self.MyCourserunLogin)
+        run_button.pack(pady=12,padx=10)
+
+
+
+    def git_click(self):
+        # call the code for opening myCourses credentials page
+        git_window = customtkinter.CTkToplevel(self.gui)
+        git_window.title("GitHub")
+        git_window.geometry("600x400")
+
+        my_label = customtkinter.CTkLabel(git_window, text="Enter Github credentials")
+        my_label.pack()
+        frame = customtkinter.CTkFrame(git_window)
+        frame.pack(pady=20, padx=40, fill='both', expand=True)
+
+        # Create the text box for taking username input from user
+        self.user_entry = customtkinter.CTkEntry(frame, placeholder_text="Username")
+        self.user_entry.pack(pady=12, padx=10)
+
+        # Create a text box for taking password input from user
+        self.user_pass = customtkinter.CTkEntry(frame, placeholder_text="Password", show="*")
+        self.user_pass.pack(pady=12, padx=10)
+
+        # Create a login button to login
+        save_button = customtkinter.CTkButton(frame, text='Save', command=self.saveGit)
+        save_button.pack(pady=12, padx=10)
+
+        run_button = customtkinter.CTkButton(frame, text='Run', command=self.gitrunLogin)
         run_button.pack(pady=12, padx=10)
 
-    def save_credentials(self, title):
-        username = self.user_entry.get()
-        password = self.user_pass.get()
-        passwordDict[title] = (username, password)
-        print(passwordDict)
+    def link_click(self):
+        # call the code for opening myCourses credentials page
+        link_window = customtkinter.CTkToplevel(self.gui)
+        link_window.title("Linkedin")
+        link_window.geometry("600x400")
 
-    """""
+        my_label = customtkinter.CTkLabel(link_window, text="Enter Linkedin credentials")
+        my_label.pack()
+        frame = customtkinter.CTkFrame(link_window)
+        frame.pack(pady=20, padx=40, fill='both', expand=True)
+
+        # Create the text box for taking username input from user
+        self.user_entry = customtkinter.CTkEntry(frame, placeholder_text="Username")
+        self.user_entry.pack(pady=12, padx=10)
+
+        # Create a text box for taking password input from user
+        self.user_pass = customtkinter.CTkEntry(frame, placeholder_text="Password", show="*")
+        self.user_pass.pack(pady=12, padx=10)
+
+        # Create a login button to login
+        save_button = customtkinter.CTkButton(frame, text='Save', command=self.saveLink)
+        save_button.pack(pady=12, padx=10)
+
+        run_button = customtkinter.CTkButton(frame, text='Run', command=self.LinkrunLogin)
+        run_button.pack(pady=12, padx=10)
+
     def saveMycoures(self):
         username = self.user_entry.get()
         password = self.user_pass.get()
@@ -106,7 +156,6 @@ class SkipperGUI:
         password = self.user_pass.get()
         passwordDict["Link"] = (username,password)
         print(passwordDict)
-        """""
 
 
     def MyCourserunLogin(self):
@@ -134,10 +183,10 @@ class SkipperGUI:
         driver = webdriver.Chrome()
         driver.get('https://github.com/login')
         username = driver.find_element(By.ID, 'login_field')
-        user_passTuple = passwordDict["Github"]
-        username.send_keys(user_passTuple[0])
+
+        username.send_keys("devdog805@gmail.com")
         password = driver.find_element(By.ID, 'password')
-        password.send_keys(user_passTuple[1])
+        password.send_keys("Akj645462016$")
         login = driver.find_element(By.NAME, 'commit').click()
 
         # Additional code to perform actions on GitHub
