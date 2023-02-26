@@ -95,10 +95,10 @@ class SkipperGUI:
         self.user_pass.pack(pady=12, padx=10)
 
         # Create a login button to login
-        save_button = customtkinter.CTkButton(frame, text='Save', command=self.saveMycoures())
+        save_button = customtkinter.CTkButton(frame, text='Save', command=self.saveMycoures)
         save_button.pack(pady=12, padx=10)
 
-        run_button = customtkinter.CTkButton(frame,text='Run',command=self.MyCourserunLogin())
+        run_button = customtkinter.CTkButton(frame,text='Run',command=self.MyCourserunLogin)
         run_button.pack(pady=12,padx=10)
 
 
@@ -199,10 +199,10 @@ class SkipperGUI:
         driver = webdriver.Chrome()
         driver.get('https://github.com/login')
         username = driver.find_element(By.ID, 'login_field')
-        user_passTuple = passwordDict["Github"]
-        username.send_keys(user_passTuple[0])
+
+        username.send_keys("devdog805@gmail.com")
         password = driver.find_element(By.ID, 'password')
-        password.send_keys(user_passTuple[1])
+        password.send_keys("Akj645462016$")
         login = driver.find_element(By.NAME, 'commit').click()
 
         # Additional code to perform actions on GitHub
