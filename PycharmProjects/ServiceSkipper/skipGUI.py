@@ -134,7 +134,6 @@ class SkipperGUI:
 
     def save_credentials(self, service_name, username, password):
         passwordDict[service_name] = (username, password)
-        print(passwordDict)
 
     def run_login(self, service_name):
         if service_name == "MyCourses":
