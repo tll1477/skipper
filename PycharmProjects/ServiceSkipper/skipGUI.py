@@ -7,10 +7,10 @@ from selenium import webdriver
 import time
 
 
-from PIL import Image
+from PIL import Image, ImageTk
 
 passwordDict = {"Mycourses": (),"Github":(),"Link":()}
-BACKGROUND_PATH= "background.png"
+BACKGROUND_PATH= "background2.png"
 class SkipperGUI:
     def __init__(self):
 
@@ -20,6 +20,11 @@ class SkipperGUI:
         # creating the window and setting the size
         self.gui = customtkinter.CTk()
         self.gui.geometry("800x600")
+        bg_image = ImageTk.PhotoImage(Image.open(BACKGROUND_PATH))
+
+        # Create a Label widget with the background image and place it at (0, 0)
+        bg_label = customtkinter.CTkLabel(self.gui, image=bg_image,text="")
+        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
         self.label = customtkinter.CTkLabel(self.gui, text="Service Skipper")
         self.label.pack()
 
@@ -212,9 +217,10 @@ class SkipperGUI:
         driver = webdriver.Chrome()
         driver.get("https://www.linkedin.com/checkpoint/lg/sign-in-another-account")
         username_element = driver.find_element(By.ID, 'username')
-        username_element.send_keys("devdog805@gmail.com")
-        password_element = driver.find_element(By.ID, 'password')
-        password_element.send_keys("dj101802")
+        user_passTuple = passwordDict["Link"]
+        username_element.send_keys(user_passTuple[0])
+        password = driver.find_element(By.ID, 'password')
+        password.send_keys(user_passTuple[1])
         login_button = driver.find_element(By.XPATH, '/html/body/div/main/div[2]/div[1]/form/div[3]/button')
         login_button.click()
 
