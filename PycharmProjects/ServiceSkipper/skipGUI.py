@@ -83,19 +83,25 @@ class SkipperGUI:
             height=0,
             hover_color="white",
             fg_color="white",
-            border_width=5,
+            border_width=0,
             border_color="white",
-            corner_radius=10,
+            corner_radius=100,
             command=lambda: self.open_credentials_window(service_name)
         )
         button.place(x=position[0], y=position[1])
         setattr(self, f"{name.lower()}Button", button)
 
     def open_credentials_window(self, service_name):
+        self.gui.withdraw()  # Hide the root window
         window = customtkinter.CTkToplevel(self.gui)
-        window.title(service_name)
-        window.geometry("600x400")
 
+        def on_close():
+            window.destroy()
+            self.gui.deiconify()  # Show the root window
+        window.title(service_name)
+        window.geometry("1000x1000")
+
+        window.protocol("WM_DELETE_WINDOW", on_close)
         label_text = f"Enter {service_name} credentials"
         label = customtkinter.CTkLabel(window, text=label_text)
         label.pack()
