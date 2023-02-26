@@ -198,11 +198,11 @@ class SkipperGUI:
     def gitrunLogin(self):
         driver = webdriver.Chrome()
         driver.get('https://github.com/login')
+        user_passTuple = passwordDict["Github"]
         username = driver.find_element(By.ID, 'login_field')
-
-        username.send_keys("devdog805@gmail.com")
+        username.send_keys(user_passTuple[0])
         password = driver.find_element(By.ID, 'password')
-        password.send_keys("Akj645462016$")
+        password.send_keys(user_passTuple[1])
         login = driver.find_element(By.NAME, 'commit').click()
 
         # Additional code to perform actions on GitHub
