@@ -18,13 +18,13 @@ passwordDict = {}
 MY_COURSES_LOGO_PATH = "myCoursesLogo.png"
 GITHUB_LOGO_PATH = "github-logo-300x300.png"
 LINKEDIN_LOGO_PATH = "linkedin.png"
-ONEDRIVE_LOGO_PATH = "onedrive-logo.png"
+GLASSDOOR_LOGO_PATH = "glassdoor-logo.png"
 
 # Names for each service
 MY_COURSES = "MyCourses"
 GITHUB = "Github"
 LINKEDIN = "Link"
-ONEDRIVE = "OneDrive"
+GLASSDOOR = "GlassDoor"
 
 
 class SkipperGUI:
@@ -56,7 +56,7 @@ class SkipperGUI:
         self.create_button(self.gui, MY_COURSES, MY_COURSES_LOGO_PATH, (70, 100), MY_COURSES)
         self.create_button(self.gui, GITHUB, GITHUB_LOGO_PATH, (470, 100), GITHUB)
         self.create_button(self.gui, LINKEDIN, LINKEDIN_LOGO_PATH, (870, 100), LINKEDIN)
-        self.create_button(self.gui, ONEDRIVE, ONEDRIVE_LOGO_PATH, (1270, 100), ONEDRIVE)
+        self.create_button(self.gui, GLASSDOOR, GLASSDOOR_LOGO_PATH, (1270, 100), GLASSDOOR)
 
     def create_button(self, master, name, image_path, position, service_name):
         """
